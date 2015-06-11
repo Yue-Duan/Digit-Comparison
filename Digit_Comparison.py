@@ -12,20 +12,56 @@ from sklearn.datasets import load_digits
 
 class Digit_Comparison(object):
     '''
-    classdocs
+    Compares certain rows of pixels of two digits
     '''
 
 
     def __init__(self):
         '''
-        Constructor
+        Retrieves data and target of hand written digits dataset
+        
+        
+        Parameters
+        ----------
+        None
+
+
+        Returns : 
+        ----------
+        None
+        
+        
+        Notes :
+        ----------
+        This includes data and target of all 10 digits.
         '''
+        
         digits = load_digits()
         self.data = digits.data
         self.target = digits.target
     
     
     def plot_hist(self):
+        
+        '''
+        Plot histograms to compare data of 8 pixels in specified rows of two specified digits
+        
+        
+        Parameters
+        ----------
+        None
+
+
+        Returns : 
+        ----------
+        Histograms
+        
+        
+        Notes :
+        ----------
+        8 histograms corresponds to 8 digits in the specified row
+        '''
+        
         # set bin
         bins = np.linspace(0, 16, 17)
         digit_1, digit_2, row = self.get_user_input() 
@@ -46,14 +82,56 @@ class Digit_Comparison(object):
                     axs[row, col].legend(loc='upper right')
         
         fig.savefig('Digit_Hist.png')
-        plt.show()           
-        # function to get data
+        plt.show()        
+           
+        
     def get_data(self, digit, row):
-            digit_data = self.data[self.target==digit]
-            row_data = digit_data[:, row*8:(row+1)*8]
-            return pd.DataFrame(row_data)
+        '''
+        Extract subsets of data of specified digit and row
+        
+        
+        Parameters
+        ----------
+        digit : int
+            digit to compare
+        row : int
+            row number of the data
+                
+        Returns : 
+        ----------
+        df : data frame
+            contains data of 8 pixels in the specified row of the specified digit
+        
+        Notes :
+        ----------
+        
+        '''
+        digit_data = self.data[self.target==digit]
+        row_data = digit_data[:, row*8:(row+1)*8]
+        return pd.DataFrame(row_data)
         
     def get_user_input(self):
+        '''
+        Lets user specify the 2 digits and row number for comparison
+        
+        
+        Parameters
+        ----------
+        None
+                
+        Returns : 
+        ----------
+        digit_1 : int
+                first digit
+        digit_2 : int
+                second digit
+        row : int
+                row number
+        
+        Notes :
+        ----------
+        
+        '''
         digit_1 = raw_input('Enter Digit 1')
         digit_2 = raw_input('Enter Digit 2')
         row = raw_input('Enter Row Number')
